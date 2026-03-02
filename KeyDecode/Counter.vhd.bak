@@ -1,0 +1,142 @@
+library ieee;
+
+use ieee.std_logic_1164.all;
+
+entity Counter is
+  port(
+   
+	--Input Port
+     
+	 dataIn : in std_logic_vector(3 downto 0);
+	 PL, CE, CLK, Clear : in std_logic;
+    
+	--Output Port
+     
+	  TC : out std_logic;
+	  
+  
+  end  ALU;
+
+architecture structural of Counter is
+
+
+
+component Yor0 is
+  port(
+  --Input Port
+    
+	 Y: in std_logic_vector(3 downto 0);
+	 OPA: in std_logic;
+    
+  --Output Port
+    
+	 Yout : out std_logic_vector(3 downto 0));
+
+end component;
+
+component AU is
+port(
+  	
+   --Input Port
+     
+	  A, B: in std_logic_vector(3 downto 0);
+	  CBi, OPau: in std_logic;
+    
+	 --Output Port
+     
+	  R: out std_logic_vector(3 downto 0);
+	  OV: out std_logic;
+	  CBo: out std_logic);
+  
+end component;
+
+
+
+component LUcirc is
+port(
+    --Input ports
+      
+	  A, B : in std_logic_vector(3 downto 0);
+     S0, S1 : in std_logic;
+    
+	 --Output port
+      
+		R : out std_logic_vector(3 downto 0);
+		CY : out std_logic);
+		
+end  component;
+
+
+
+component MUX is
+port(
+  	
+   --Input port
+	
+	  A, B : in std_logic_vector(3 downto 0);
+     S : in std_logic;
+	
+	--Output port
+	
+     Y : out std_logic_vector(3 downto 0));	
+
+  
+end component;
+
+
+
+
+component DecodeOP is
+port(
+  	
+   --Input Port
+    
+	 OP0, OP1, OP2 : in  std_logic;
+    
+   --Output Port
+    
+	 OPA, OPB, OPC, OPD, OPE, OPF : out std_logic); 
+  
+end component;
+
+
+
+
+component Flags1 is
+port(
+  	
+   --Input Port
+    
+	 IOV, ICB, OP, CY: in std_logic;
+     R: in std_logic_vector(3 downto 0);
+
+    
+   --Output Port
+    
+	 BE, GE, P, Z, oOV, oCB : out std_logic);
+  
+end component;
+
+
+signal fioOPA, fioOPB, fioOPC, fioOPD, fioOPE, fioOPF : std_logic;
+signal fio1, fio2, fio5, fio7 : std_logic_vector(3 downto 0);
+signal fio3, fio4, fio6 : std_logic;
+
+
+begin
+
+U1 : DecodeOP  port map ( OP0 => OP(0), OP1 => OP(1), OP2 => OP(2), OPA => fioOPA, OPB => fioOPB, OPC => fioOPC, OPD => fioOPD, OPE => fioOPE, OPF => fioOPF);
+       
+U2 : Yor0 port map ( Y => Y, OPA => fioOPA, Yout => fio1 );
+
+U3 : AU port map ( CBi => CBi, A => X, B => fio1, OPau => fioOPB, R => fio2, OV => fio3, CBo => fio4);
+
+U4 : LUcirc port map ( A => X, B => Y, S0 => fioOPD, S1 => fioOPE, R => fio5, CY => fio6);
+
+U5 : MUX port map ( A => fio2, B => fio5, S => fioOPC, Y => fio7);
+
+U6 : Flags1 port map ( IOV => fio3, ICB => fio4, OP => fioOPF,  R => fio7,  CY => fio6, BE => BE , GE => GE , P => P, Z => Z, oOV => OV, oCB => CBo);
+
+R <= fio7;
+
+end structural;

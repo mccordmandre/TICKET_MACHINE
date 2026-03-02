@@ -1,0 +1,38 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+
+entity DecodeOp is
+  port(
+  --Input port
+  
+    OP0 : in  std_logic;
+    OP1 : in  std_logic;
+    OP2 : in  std_logic; 
+    
+  --Output port 
+  
+	 OPA : out std_logic;  
+    OPB : out std_logic;  
+    OPC : out std_logic;  
+    OPD : out std_logic;  
+    OPE : out std_logic;  
+    OPF : out std_logic;  
+    OPG : out std_logic;  
+    OPH : out std_logic;
+	 
+  end  DecodeOp;
+ 
+architecture structural of DecodeOP is
+  
+  begin
+  OPA <= (not OP0 and not OP1 and  OP2);  
+  OPB <= (not OP0 and not OP1 and OP2);  
+  OPC <= OP2; 
+  OPD <= (not OP0 and OP1 and OP2);  
+  OPE <= (OP0 and not OP1 and not OP2);  
+  OPF <= (OP0 and not OP1 and OP2);  
+  OPG <= (OP0 and OP1 and not OP2);  
+  OPH <= (OP0 and OP1 and OP2);  
+
+end architecture;

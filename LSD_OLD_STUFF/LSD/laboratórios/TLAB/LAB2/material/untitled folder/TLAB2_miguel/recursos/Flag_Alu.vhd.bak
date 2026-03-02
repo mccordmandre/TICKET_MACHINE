@@ -1,0 +1,15 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity Flag_Alu is
+  port (
+    R : in  std_logic_vector(3 downto 0);
+    P, Z, BE, GE, oOV, oCB : out std_logic --BE = Below or Equal; GE= Greater or Equal; oOV = Output Overflow; oCB = Output Carry Borrow
+  );
+end entity;
+
+architecture structural of Flag_Alu is
+
+begin
+
+end structural;

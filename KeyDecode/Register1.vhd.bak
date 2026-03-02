@@ -1,0 +1,33 @@
+library ieee;
+
+use ieee.std_logic_1164.all;
+
+entity Register1 is
+  port(
+   
+	--Input port
+	
+	  Clk : in std_logic;
+	  A: in std_logic_vector(3 downto 0);
+     
+	  
+	--Output port
+	
+     B: out std_logic_vector(3 downto 0));
+	  
+  
+  end Register1;
+  
+  architecture structural of Register1 is
+component FFD is
+ port(
+   
+	--Input Port
+    
+	 CLK, RESET, SET, D, EN : in std_logic;
+		
+	 --Output Port
+     S: out std_logic_vector(3 downto 0);
+	  Co: out std_logic);
+
+end component;

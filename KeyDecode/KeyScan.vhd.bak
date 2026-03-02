@@ -1,0 +1,49 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+
+entity KeyDecode is
+  port(
+    
+	--Input port
+	 
+	 A, B, C, D : in std_logic_vector(3 downto 0);   
+    S0, S1 : in std_logic;
+	 
+	 --Output port
+	 
+     Y : out std_logic_vector(3 downto 0));
+		  
+end MUX4to1;
+
+
+architecture structural of MUX4to1 is
+component MUX is
+  port(
+   
+	--Input port
+	
+	 A, B : in std_logic_vector(3 downto 0);
+    S : in std_logic;
+	 
+	 --Output port
+	 
+    Y : out std_logic_vector(3 downto 0));	
+
+ end component;
+  
+
+signal fio0, fio1 : std_logic_vector(3 downto 0);
+
+
+begin
+
+U1 : MUX port map( A => A ,  B => B , S => S0, Y => fio0);
+
+U2 : MUX port map( A => C, B => D,  S => S0, Y => fio1);
+
+U3 : MUX port map( A => fio0, B => fio1 , S => S1, Y => Y);
+
+
+
+end structural;

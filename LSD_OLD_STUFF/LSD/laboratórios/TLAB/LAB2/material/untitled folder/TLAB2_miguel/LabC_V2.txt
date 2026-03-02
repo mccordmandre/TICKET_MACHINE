@@ -1,0 +1,169 @@
+//////////////////////////////////////////////////
+/		    Test bench			 /
+//////////////////////////////////////////////////
+
+LIBRARY IEEE;
+use IEEE.std_logic_1164.all;
+
+entity LabC_tb is
+end LabC_tb;
+
+architecture teste of LabC_tb is
+component AU port(
+	A, B: in std_logic_vector(3 downto 0);
+	CBi: in std_logic;
+	OPau: in std_logic;
+	R: out std_logic_vector(3 downto 0);
+	CBo, OV: out std_logic);
+end component;
+
+signal CBi: std_logic;
+signal A, B : std_logic_vector(3 downto 0);
+signal OPau : std_logic;
+signal R : std_logic_vector(3 downto 0);
+signal CBo, OV : std_logic;
+
+begin
+
+U0 : AU port map (CBi => CBi, A => A, B => B, OPau => OPau, 
+		     R => R, CBo => CBo, OV => OV);
+
+process
+begin
+ CBi <= '0';
+ A <= "0101"; 
+ B <= "1101"; 
+ OPau <= '0';
+ wait for 10 ns;
+
+ CBi <= '0';
+ A <= "0101"; 
+ B <= "1101"; 
+ OPau <= '1';
+ wait for 10 ns;
+
+ CBi <= '1';
+ A <= "0101"; 
+ B <= "1101"; 
+ OPau <= '0';
+ wait for 10 ns;
+
+ CBi <= '1';
+ A <= "0101"; 
+ B <= "1101"; 
+ OPau <= '1';
+ wait for 10 ns;
+
+ CBi <= '0';
+ A <= "1101"; 
+ B <= "0101"; 
+ OPau <= '0';
+ wait for 10 ns;
+
+ CBi <= '0';
+ A <= "1101"; 
+ B <= "0101"; 
+ OPau <= '1';
+ wait for 10 ns;
+
+ CBi <= '1';
+ A <= "1101"; 
+ B <= "0101"; 
+ OPau <= '0';
+ wait for 10 ns;
+
+ CBi <= '1';
+ A <= "1101"; 
+ B <= "0101"; 
+ OPau <= '1';
+ 
+ wait;
+
+end process;
+
+end teste;
+
+//////////////////////////////////////////////////
+/		     Adder			 /
+//////////////////////////////////////////////////
+
+library IEEE;
+use IEEE.std_logic_1164.all;
+
+entity fullAdder is -- Aritmetic Unit 
+
+	port(
+	A, B: in std_logic;
+	C: out std_logic;	--Carry in
+	R: out std_logic
+	);
+
+end fullAdder;
+
+
+architecture structural of fullAdder is
+
+begin
+
+	R <= A xor B;
+	
+end structural;
+
+
+//////////////////////////////////////////////////
+/		     Full Adder			 /
+//////////////////////////////////////////////////
+
+library IEEE;
+use IEEE.std_logic_1164.all;
+
+entity adder is -- Aritmetic Unit 
+
+	port(
+	A, B: in std_logic_vector(3 downto 0);
+	CBi: in std_logic_vector(3 downto 0); --Carry/Borrow IN
+	R: out std_logic_vector(3 downto 0)
+	);
+
+end adder;
+
+//////////////////////////////////////////////////
+/		  AdderSubtractor		 /	(Ainda nao está todo feito)
+//////////////////////////////////////////////////
+
+architecture structural of adder is
+
+begin
+
+	R(3) <= (A(3) xor B(3)) xor CBi(3);
+	R(2) <= (A(2) xor B(2)) xor CBi(2);
+	R(1) <= (A(1) xor B(1)) xor CBi(1);
+	R(0) <= (A(0) xor B(0)) xor CBi(0);
+
+end structural;
+
+library IEEE;
+use IEEE.std_logic_1164.all;
+
+entity adderSubtractor is -- Aritmetic Unit 
+
+	port(
+	A, B: in std_logic_vector(3 downto 0);
+	CBi: in std_logic_vector(3 downto 0); --Carry/Borrow IN
+	Op: in std_logic;
+	R: out std_logic_vector(3 downto 0)
+	);
+
+end adderSubtractor;
+
+
+architecture structural of adderSubtractor is
+
+begin
+
+	R(3) <= A(3) xor (B(3) xor CBi(3)) xor CBi(3);
+	R(2) <= A(2) xor (B(2) xor CBi(2)) xor CBi(2);
+	R(1) <= A(1) xor (B(1) xor CBi(1)) xor CBi(1);
+	R(0) <= A(0) xor (B(0) xor CBi(0)) xor CBi(0);
+
+end structural;

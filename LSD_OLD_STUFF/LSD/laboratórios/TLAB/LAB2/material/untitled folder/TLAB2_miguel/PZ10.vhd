@@ -1,0 +1,40 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity PZ10 is
+  port (
+        I0, I1, I2, I3, I4, I5, I6, I7, I8, I9 : in std_logic;
+        P, Z : out std_logic
+  );
+end entity;
+
+architecture structural of PZ10 is
+    
+    component PZ4 is
+        port (
+          I0, I1, I2, I3 : in  std_logic;
+          P, Z : out std_logic
+        );
+    end component;
+
+
+    signal signalPZ4_0_PtoI2, signalPZ4_0_ZtoAND : std_logic;
+    signal signalPZ4_1_PtoI3, signalPZ4_1_ZtoAND : std_logic;
+    signal signalPZ4_2_ZtoAND : std_logic;
+
+
+begin
+
+    PZ4_0Unit : PZ4 port map (
+        I0 => I2,
+        I1 => I3,
+        I2 => I4,
+        I3 => I5,
+        P => signalPZ4_0_PtoI2,
+        Z => signalPZ4_0_ZtoAND
+    );
+
+    Z <= signalPZ4_0_ZtoAND and signalPZ4_1_ZtoAND and signalPZ4_2_ZtoAND;
+
+
+end structural;

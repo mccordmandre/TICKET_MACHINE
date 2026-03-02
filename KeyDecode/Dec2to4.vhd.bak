@@ -1,0 +1,47 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+
+entity Dec2to4 is
+  port(
+  --Input port
+
+    A : in  std_logic_vector(1 downto 0);
+	 E : in  std_logic;
+
+  --Output port 
+
+    o : out std_logic_vector(3 downto 0)
+	 );
+
+
+  end  Dec2to4;
+  
+  
+  
+ architecture structural of Dec2to4 is
+
+ component Dec1to2 is
+  port(
+  --Input port
+    
+	 a0,e : in  std_logic;
+
+  --Output port 
+
+    o0,o1 : out std_logic);
+
+  end  component;
+  
+  
+  
+signal f_dec : std_logic_vector(1 downto 0);
+
+  begin
+  U1: Dec_1_2 port map ( a0 => A(1), E => E, O0 => f_dec(0) , o1 => f_dec(1));
+  
+  U2: Dec_1_2 port map ( a0 => A(0), E => f_dec(0), O0 => o(0) , o1 => o(1));
+  
+  U3: Dec_1_2 port map ( a0 => A(0), E => f_dec(1), O0 => o(2) , o1 => o(3));
+  
+end architecture;
